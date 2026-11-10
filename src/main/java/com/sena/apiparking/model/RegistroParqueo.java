@@ -32,10 +32,14 @@ public class RegistroParqueo {
 	private Long id_registro;
 
 	@ManyToOne(optional = false)
+	@JoinColumn(name = "vehiculo_id", nullable = false)
+	private Vehiculo vehiculo;
+
+	@ManyToOne(optional = false)
 	@JoinColumn(name = "espacio_id", nullable = false)
 	private EspacioParqueo espacio;
 	@Column(nullable = false)
-	private LocalDateTime fechaEntrado;
+	private LocalDateTime fechaEntrada;
 	private LocalDateTime fechaSalida;
 	private Double valorPagado;
 
