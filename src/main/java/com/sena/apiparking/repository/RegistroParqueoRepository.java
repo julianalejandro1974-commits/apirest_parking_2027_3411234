@@ -13,16 +13,16 @@ import com.sena.apiparking.model.RegistroParqueo;
 
 import jakarta.persistence.LockModeType;
 
-public interface RegistroParqueoRepository extends JpaRepository<RegistroParqueoRepository, Long> {
+public interface RegistroParqueoRepository extends JpaRepository<RegistroParqueo, Long> {
 
 	@Query("select count(r)>0 from RegistroParqueo r join r.v.vehiculo v where v.placa = :placa and r.fechaSalida is null ")
-
 	boolean existsByVehiculoPlacaAndFechaSalidaIsNull(@Param("placa") String placa);
 
 	@Query("select count(r) > 0 from RegistroParqueo r where r.espacio = :espacio")
 	boolean existsByEspacio(@Param("espacio") EspacioParqueo espacio);
 
 	Optional<RegistroParqueo> findbyVehiculoPlacaAndFechaSalidaIsNull(String placa);
+	List<RegistroParqueo> findAllByOrderByFechaEntradaDesc();
 
 	List<RegistroParqueo> findbyFechaSalidaIsNullOrderByFechaEntradaDesc();
 

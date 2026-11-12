@@ -1,6 +1,6 @@
 package com.sena.apiparking.exception;
 
-import java.lang.reflect.Method;
+
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -30,14 +30,15 @@ public class GlobalExceptionHandler {
 
 	@ExceptionHandler(HttpMessageNotReadableException.class)
 	public ResponseEntity<ErrorResponse> validation(HttpMessageNotReadableException ex) {
-		return build(HttpStatus.BAD_REQUEST, "JSON Mal formado o con valores no permitidos (tipo debe ser CARRO, MOTO O BICICLETA)", List.of());
+		return build(HttpStatus.BAD_REQUEST,
+				"JSON Mal formado o con valores no permitidos (tipo debe ser CARRO, MOTO O BICICLETA)", List.of());
 	}
 
 	@ExceptionHandler(MethodArgumentTypeMismatchException.class)
 	public ResponseEntity<ErrorResponse> validation(MethodArgumentTypeMismatchException ex) {
 		return build(HttpStatus.BAD_REQUEST, "Valor invalido para el parametro'" + ex.getName() + "'", List.of());
 	}
-	
+
 	@ExceptionHandler(DataIntegrityViolationException.class)
 	public ResponseEntity<ErrorResponse> validation(DataIntegrityViolationException ex) {
 		return build(HttpStatus.CONFLICT, "Operacion rechazada por integridad de datos", List.of());

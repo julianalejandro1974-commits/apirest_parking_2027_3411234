@@ -2,7 +2,6 @@ package com.sena.apiparking.model;
 
 import java.time.LocalDateTime;
 
-import org.hibernate.annotations.ManyToAny;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
