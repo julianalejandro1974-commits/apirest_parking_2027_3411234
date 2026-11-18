@@ -20,7 +20,6 @@ import lombok.RequiredArgsConstructor;
 
 @Service
 @RequiredArgsConstructor
-
 public class TarifaService {
 	private final TarifaRepository tarifaRepo;
 
@@ -53,13 +52,13 @@ public class TarifaService {
 	 */
 	@Transactional(readOnly = true)
 	public void exigirTarifaVigente(TipoVehiculo tipo) {
-		if (!tarifaRepo.exexistsByTipoAndVigenteHastaIsNull(tipo)) {
+		if (!tarifaRepo.existsByTipoAndVigenteHastaIsNull(tipo)) {
 			throw ApiException.conflict("No hay tarifa vigente para " + tipo);
 		}
 	}
 
 	@Transactional(readOnly = true)
-	public CobroDetalle calcular (TipoVehiculo tipo, LocalDateTime entrada, LocalDateTime salida) {
+	public CobroDetalle calcular(TipoVehiculo tipo, LocalDateTime entrada, LocalDateTime salida) {
 		Tarifas t = tarifaVigenteEn(tipo, salida);
 		int fm = t.getFraccionMinutos();
 		long segundos = Math.max(0, Duration.between(entrada, salida).getSeconds());
@@ -81,5 +80,4 @@ public class TarifaService {
 				.or(() -> tarifaRepo.findFirstByTipoAndVigenteHastaIsNull(tipo))
 				.orElseThrow(() -> ApiException.conflict("No hay tarifa vigente para " + tipo));
 	}
-
 }

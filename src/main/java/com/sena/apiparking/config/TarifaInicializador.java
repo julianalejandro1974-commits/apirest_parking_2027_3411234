@@ -22,7 +22,7 @@ public class TarifaInicializador implements ApplicationRunner {
 	public void run(ApplicationArguments args) {
 		// TODO Auto-generated method stub
 		for (TipoVehiculo tipo : TipoVehiculo.values()) {
-			if (tarifarepo.exexistsByTipoAndVigenteHastaIsNull(tipo)) {
+			if (tarifarepo.existsByTipoAndVigenteHastaIsNull(tipo)) {
 				continue;
 			}
 			TarifaProperties.Valores v = props.getTipos().get(tipo);

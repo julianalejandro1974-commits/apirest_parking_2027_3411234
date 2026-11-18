@@ -16,8 +16,8 @@ import jakarta.persistence.LockModeType;
 
 public interface TarifaRepository extends JpaRepository<Tarifas, Long> {
 
-	@Query("select count(t)>0 from Tarifas t where t.tipo = :tipo and t.vigenteHasta is null")
-	boolean exexistsByTipoAndVigenteHastaIsNull(@Param("tipo") TipoVehiculo tipo);
+	@Query("select count(t) > 0 from Tarifas t where t.tipo = :tipo and t.vigenteHasta is null")
+	boolean existsByTipoAndVigenteHastaIsNull(@Param("tipo") TipoVehiculo tipo);
 
 	Optional<Tarifas> findFirstByTipoAndVigenteHastaIsNull(TipoVehiculo tipo);
 
@@ -27,7 +27,7 @@ public interface TarifaRepository extends JpaRepository<Tarifas, Long> {
 	@Query("select t from Tarifas t where t.tipo = :tipo and t.vigenteHasta is null")
 	Optional<Tarifas> bloquearVigente(@Param("tipo") TipoVehiculo tipo);
 
-	@Query("select t from Tarifas t Where t.tipo = :tipo and t.vigenteDesde <= :momento "
+	@Query("select t from Tarifas t where t.tipo = :tipo and t.vigenteDesde <= :momento "
 			+ "and (t.vigenteHasta is null or t.vigenteHasta > :momento) order by t.vigenteDesde desc")
 	List<Tarifas> vigentesEn(@Param("tipo") TipoVehiculo tipo, @Param("momento") LocalDateTime momento);
 }

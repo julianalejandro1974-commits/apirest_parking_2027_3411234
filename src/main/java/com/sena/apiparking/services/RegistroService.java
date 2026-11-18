@@ -86,16 +86,16 @@ public class RegistroService {
 		return RegistroResponse.de(r, cobro);
 	}
 
-		@Transactional(readOnly = true)
-		public RegistroResponse consultarCobro(Long id) {
-			return conCobro(buscar(id));
-		}
+	@Transactional(readOnly = true)
+	public RegistroResponse consultarCobro(Long id) {
+		return conCobro(buscar(id));
+	}
 
 	@Transactional(readOnly = true)
 	public RegistroResponse consultarCobroPorPlaca(String placa) {
 		String p = placaObligatoria(placa);
 		return conCobro(
-				registroRepo.findbyVehiculoPlacaAndFechaSalidaIsNull(p).orElseThrow(() -> sinRegistroActivo(p)));
+				registroRepo.findByVehiculoPlacaAndFechaSalidaIsNull(p).orElseThrow(() -> sinRegistroActivo(p)));
 	}
 
 	@Transactional(readOnly = true)
@@ -107,7 +107,7 @@ public class RegistroService {
 	public RegistroResponse obtenerActivoPorPlaca(String placa) {
 		String p = placaObligatoria(placa);
 		return RegistroResponse.de(
-				registroRepo.findbyVehiculoPlacaAndFechaSalidaIsNull(p).orElseThrow(() -> sinRegistroActivo(p)), null);
+				registroRepo.findByVehiculoPlacaAndFechaSalidaIsNull(p).orElseThrow(() -> sinRegistroActivo(p)), null);
 	}
 
 	@Transactional(readOnly = true)
@@ -116,9 +116,9 @@ public class RegistroService {
 		if (activos == null) {
 			lista = registroRepo.findAllByOrderByFechaEntradaDesc();
 		} else if (activos) {
-			lista = registroRepo.findbyFechaSalidaIsNotNullOrderByFechaEntradaDesc();
+			lista = registroRepo.findByFechaSalidaIsNullOrderByFechaEntradaDesc();
 		} else {
-			lista = registroRepo.findbyFechaSalidaIsNotNullOrderByFechaEntradaDesc();
+			lista = registroRepo.findByFechaSalidaIsNotNullOrderByFechaEntradaDesc();
 		}
 		return lista.stream().map(r -> RegistroResponse.de(r, null)).toList();
 	}
@@ -171,7 +171,8 @@ public class RegistroService {
 			throw ApiException.badRequest("Placa invalida");
 		}
 		return p;
-	}	
+	}
+
 	private String normalizarPlaca(String placa) {
 		if (placa == null || placa.isBlank()) {
 			return null;
